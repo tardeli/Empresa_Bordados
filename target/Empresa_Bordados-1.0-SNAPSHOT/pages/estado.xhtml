@@ -15,8 +15,64 @@
                 <f:facet name="left">
                     <h:outputText value="Controle de Estado"/>
                 </f:facet>
-           </p:toolbar>
-        </h:form>          
+            </p:toolbar>
+            <p:panel header="Lista - Estados">
+                <p:dataTable id = "dataTable" value="#{estadoBean.listaObjetos}" var="estado" 
+                             emptyMessage="Nenhum Registro Encotrado com esta pesquisa" paginator="true" paginatorPosition="top" rows="8" style="font-size: 11pt"><br />
+                    <f:facet name="header" >
+                        <p:commandButton value = "Novo" actionListener="#{estadoBean.novo()}" oncomplete="PF('dialago').show();" ></p:commandButton>
+                    </f:facet>
+                    <p:column headerText="Cód." width="30">
+                        <h:outputText value="#{estado.codigo}" />
+                    </p:column>
+                    <p:column headerText="Nome" sortBy="#{estado.nome}" filterBy="#{estado.nome}" filterMatchMode="contains" >
+                        <h:outputText value="#{estado.nome}" />
+                    </p:column>
+                    <p:column headerText="Sigla" sortBy="#{estado.sigla}" filterBy="#{estado.sigla}" filterMatchMode="contains" >
+                        <h:outputText value="#{estado.sigla}" />
+                    </p:column>
+                    
+                    <p:column headerText="" width="35">
+                        <p:commandButton icon="ui-icon-pencil" oncomplete="PF('dialago').show();" action="#{estadoBean.carregarDadosEditar(estado)}"  update=":form_dialago" ></p:commandButton>
+                    </p:column>
+                   
+                    <p:column headerText="" width="35">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{estadoBean.excluir(estado)}" update="@form">
+                            <p:confirm header="Confirmação" message="Deseja Excluir?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </p:column> 
+                    <f:facet name="footer">
+                        <h:outputText value="Existem " />
+                        <h:outputText value="#{fn:length(estadoBean.listaObjetos)}" />
+                        <h:outputText value=" pessoas cadastradas. " />  
+                    </f:facet>
+
+                </p:dataTable>
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+            </p:panel>
+        </h:form>
+        
+        <p:dialog widgetVar="dialago" closable="false" modal="true" header="Controle de Cliente" resizable="false" appendTo="@(body)">
+            <h:form id="form_dialago">
+
+                <p:panelGrid id="painel_dialago" columns="2">
+                    <p:outputLabel value="Nome: "/> 
+                    <p:inputText id="nome" value="#{estadoBean.estado.nome}" />
+                   <p:outputLabel value="Sigla: "/> 
+                    <p:inputText id="sigla" value="#{estadoBean.estado.sigla}" style="text-transform: uppercase" />
+                </p:panelGrid>
+                <p:panelGrid columns="2">
+
+                    <p:commandButton value="Salvar" id="salvar" actionListener="#{estadoBean.salvar()}"  update="@form :form_estado :mensagem" />
+                    <p:commandButton value="Fechar" id="fechar" actionListener="#{estadoBean.novo()}" oncomplete="PF('dialago').hide()" update="@form :form_estado"/>
+                </p:panelGrid>
+            </h:form>
+
+        </p:dialog>
     </ui:define>
 </ui:composition>
 
