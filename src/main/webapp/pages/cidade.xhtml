@@ -11,12 +11,66 @@
 
     <ui:define name="conteudo">
         <h:form id="form_cidade"> 
-            <p:toolbar>
-                <f:facet name="left">
-                    <h:outputText value="Controle de Cidade"/>
-                </f:facet>
-           </p:toolbar>
-        </h:form>          
+            <p:panel header="Lista - Cidades">
+                <p:dataTable id = "dataTable" value="#{cidadeBean.listaObjetos}" var="cidade" 
+                             emptyMessage="Nenhum Registro Encotrado com esta pesquisa" paginator="true" paginatorPosition="top" rows="8" style="font-size: 11pt"><br />
+                    <f:facet name="header" >
+                        <p:commandButton value = "Novo" actionListener="#{cidadeBean.novo()}" oncomplete="PF('dialago').show();" ></p:commandButton>
+                    </f:facet>
+                    <p:column headerText="Cód." width="30">
+                        <h:outputText value="#{cidade.codigo}" />
+                    </p:column>
+                    <p:column headerText="Cidade" sortBy="#{cidade.nome}" filterBy="#{cidade.nome}" filterMatchMode="contains" >
+                        <h:outputText value="#{cidade.nome}" />
+                    </p:column>
+                    <p:column headerText="Estado" sortBy="#{cidade.estado.nome}" filterBy="#{cidade.estado.nome}" filterMatchMode="contains" >
+                        <h:outputText value="#{cidade.estado.nome}" />
+                    </p:column>
+                    
+                    <p:column headerText="" width="35">
+                        <p:commandButton icon="ui-icon-pencil" oncomplete="PF('dialago').show();" action="#{cidadeBean.carregarDadosEditar(cidade)}"  update=":form_dialago" ></p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="" width="35">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{cidadeBean.excluir(cidade)}" update="@form">
+                            <p:confirm header="Confirmação" message="Deseja Excluir?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </p:column> 
+                    <f:facet name="footer">
+                        <h:outputText value="Existem " />
+                        <h:outputText value="#{fn:length(cidadeBean.listaObjetos)}" />
+                        <h:outputText value=" cidades cadastradas. " />  
+                    </f:facet>
+
+                </p:dataTable>
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+            </p:panel>
+        </h:form>
+
+        <p:dialog widgetVar="dialago" closable="false" modal="true" header="Controle de Cidade" resizable="false" appendTo="@(body)">
+            <h:form id="form_dialago">
+
+                <p:panelGrid id="painel_dialago" columns="2">
+                    <p:outputLabel value="Estado: "/>
+                    <p:selectOneMenu id="combobox_estado"  value="#{cidadeBean.cidade.estado}" converter="estadoConverter">
+                        <f:selectItem itemLabel="Selecione um Item" />
+                        <f:selectItems value="#{cidadeBean.listaEstados}"  var="Estado" itemValue="#{Estado}" itemLabel="#{Estado.nome}"/>                   
+                    </p:selectOneMenu>                            
+
+                    <p:outputLabel value="Cidade: "/> 
+                    <p:inputText id="nome" value="#{cidadeBean.cidade.nome}" />                
+                </p:panelGrid>
+                <p:panelGrid columns="2">
+                    <p:commandButton value="Salvar" id="salvar" actionListener="#{cidadeBean.salvar()}"  update="@form :form_cidade :mensagem" />
+                    <p:commandButton value="Fechar" id="fechar" actionListener="#{cidadeBean.novo()}" oncomplete="PF('dialago').hide()" update="@form :form_cidade"/>
+                </p:panelGrid>
+            </h:form>
+
+        </p:dialog>          
     </ui:define>
 </ui:composition>
 

@@ -11,11 +11,7 @@
 
     <ui:define name="conteudo">
         <h:form id="form_estado"> 
-            <p:toolbar>
-                <f:facet name="left">
-                    <h:outputText value="Controle de Estado"/>
-                </f:facet>
-            </p:toolbar>
+            
             <p:panel header="Lista - Estados">
                 <p:dataTable id = "dataTable" value="#{estadoBean.listaObjetos}" var="estado" 
                              emptyMessage="Nenhum Registro Encotrado com esta pesquisa" paginator="true" paginatorPosition="top" rows="8" style="font-size: 11pt"><br />
@@ -28,7 +24,7 @@
                     <p:column headerText="Nome" sortBy="#{estado.nome}" filterBy="#{estado.nome}" filterMatchMode="contains" >
                         <h:outputText value="#{estado.nome}" />
                     </p:column>
-                    <p:column headerText="Sigla" sortBy="#{estado.sigla}" filterBy="#{estado.sigla}" filterMatchMode="contains" >
+                    <p:column headerText="Sigla" sortBy="#{estado.sigla}" filterBy="#{estado.sigla}" filterMatchMode="contains" style="text-transform: uppercase" >
                         <h:outputText value="#{estado.sigla}" />
                     </p:column>
                     
@@ -44,7 +40,7 @@
                     <f:facet name="footer">
                         <h:outputText value="Existem " />
                         <h:outputText value="#{fn:length(estadoBean.listaObjetos)}" />
-                        <h:outputText value=" pessoas cadastradas. " />  
+                        <h:outputText value=" estados cadastradas. " />  
                     </f:facet>
 
                 </p:dataTable>

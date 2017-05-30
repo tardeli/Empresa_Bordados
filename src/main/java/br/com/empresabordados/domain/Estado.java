@@ -1,8 +1,13 @@
 package br.com.empresabordados.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -19,6 +24,9 @@ public class Estado extends Domain implements Serializable{
     @NotEmpty(message = "Cadastre uma sigla para prosseguir!")
     @Column(length = 2)
     private String sigla;
+    
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="estado")
+//    private List<Cidade> listaCidades = new ArrayList<>();
 
     public String getNome() {
         return nome;

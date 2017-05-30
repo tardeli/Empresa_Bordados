@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                >
+
+    <p:dialog widgetVar="dialago_Filho" closable="false" modal="true" header="Controle de Filho" resizable="false" appendTo="@(body)">
+        <h:form id="form_filho"> 
+
+            <p:panel header="Lista - Filhos">
+                <p:dataTable id = "dataTable" value="#{filhoBean.listaObjetos}" var="filho" 
+                             emptyMessage="Nenhum Registro Encotrado com esta pesquisa" paginator="true" paginatorPosition="top" rows="8" style="font-size: 11pt; width: 500px;"><br />
+                    <f:facet name="header" >
+                        <p:commandButton value = "Novo" actionListener="#{filhoBean.novo()}" oncomplete="PF('dialago_filho_cadastro').show();" ></p:commandButton>
+                        <p:commandButton value = "Voltar" oncomplete="PF('dialago_Filho').hide();" ></p:commandButton>
+                    </f:facet>
+                    <p:column headerText="Cód." width="30">
+                        <h:outputText value="#{filho.codigo}" />
+                    </p:column>
+                    <p:column headerText="Nome" sortBy="#{filho.nome}" filterBy="#{filho.nome}" filterMatchMode="contains" >
+                        <h:outputText value="#{filho.nome}" />
+                    </p:column>
+                    <p:column headerText="Data de Nascimento" width="80">
+                        <h:outputText value="#{filho.dataNascimento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="" width="35">
+                        <p:commandButton icon="ui-icon-pencil" oncomplete="PF('dialago_filho_cadastro').show();" action="#{filhoBean.carregarDadosEditar(filho)}"  update=":form_dialago_filho" ></p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="" width="35">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{filhoBean.excluir(filho)}" update="@form">
+                            <p:confirm header="Confirmação" message="Deseja Excluir?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </p:column> 
+                    <f:facet name="footer">
+                        <h:outputText value="Existem " />
+                        <h:outputText value="#{fn:length(filhoBean.listaObjetos)}" />
+                        <h:outputText value=" filhos cadastradas. " />  
+                    </f:facet>
+
+                </p:dataTable>
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+            </p:panel>
+        </h:form>
+
+        <p:dialog widgetVar="dialago_filho_cadastro" closable="false" modal="true" header="Controle de Cliente" resizable="false" appendTo="@(body)">
+            <h:form id="form_dialago_filho">
+                <p:panelGrid columns="2">
+                    <p:panelGrid id="painel_filho" columns="2">                    
+                        <p:outputLabel value="Cliente: " for="nomefilho"/> <p:outputLabel value="#{clienteBean.cliente.nome}" for="nomefilho"/>
+                        <p:outputLabel value="Nome do Filho: "/> <p:inputText id="nomefilho" value="#{filhoBean.filho.nome}" />
+                        <p:outputLabel value="Data Nascimento: " /> 
+                        <p:calendar id="german" value="#{filhoBean.filho.dataNascimento}"/>    
+
+                    </p:panelGrid>
+
+                    <p:commandButton value="Salvar" id="salvar" actionListener="#{filhoBean.salvar()}"  update="@form :form_filho :mensagem" />
+                    <p:commandButton value="Fechar" id="fechar" actionListener="#{filhoBean.novo()}" oncomplete="PF('dialago_filho_cadastro').hide()" update="@form :form_filho"/>
+                </p:panelGrid>
+            </h:form>
+
+        </p:dialog>
+
+
+
+    </p:dialog>
+</ui:composition>
+
+

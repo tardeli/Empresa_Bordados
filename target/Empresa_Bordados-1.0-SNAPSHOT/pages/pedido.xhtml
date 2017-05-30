@@ -10,13 +10,75 @@
 
 
     <ui:define name="conteudo">
-        <h:form id="form_pedido"> 
-            <p:toolbar>
-                <f:facet name="left">
-                    <h:outputText value="Controle de Pedido"/>
-                </f:facet>
-           </p:toolbar>
-        </h:form>          
+        <div id="dadosCliente">
+
+            <h:form id="form_pedido" >
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h:outputText value="Dados Cliente"/>
+                    </f:facet>
+                </p:toolbar>
+                <p:panelGrid id="painel_dialago" columns="2">
+                    <p:outputLabel value="Situação: " />
+                    <p:selectBooleanCheckbox value="#{clienteBean.situacao}" itemLabel="#{clienteBean.clienteAtivoLabel}">
+                        <p:ajax update="@this :mensagem" listener="#{clienteBean.atualizarSituacao()}" />
+                    </p:selectBooleanCheckbox>
+
+
+                    <p:outputLabel value="Cliente: "/>
+                    <p:selectOneMenu id="combobox_cliente"  value="#{clienteBean.cliente}" converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
+                        <p:ajax listener="#{clienteBean.carregarComboboxCidades()}" update=":form_pedido"   />
+                        <f:selectItem itemLabel="Selecione um Cliente" />
+                        <f:selectItems value="#{clienteBean.listaObjetos}" var="Cliente" itemValue="#{Cliente}" itemLabel="#{Cliente.nome}" />                   
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Email: "/> <p:inputText id="email" value="#{clienteBean.cliente.email}" />
+                    <p:outputLabel value="Telefone: "/> <p:inputMask mask="(99) 99999-9999" id="telefone" value="#{clienteBean.cliente.telefone}" size="12" />
+                    <p:outputLabel value="Data Nascimento: "/> 
+                    <p:calendar id="german" value="#{clienteBean.cliente.dataNascimento}"/>    
+                    <h:outputLabel value="Cpf: "/> <p:inputMask mask="999.999.999-99" id="cpf" value="#{clienteBean.cliente.cpf}" size="15" />
+                </p:panelGrid>
+
+                <p:separator/>
+
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h:outputText value="Dados Endereço"/>
+                    </f:facet>
+                </p:toolbar>
+
+
+                <p:panelGrid columns="2" id = "painelGrid_Endereco">
+                    <p:outputLabel value="Rua: "/><p:inputText id="rua" value="#{clienteBean.cliente.endereco.rua}" />
+                    <p:outputLabel value="Bairro: "/><p:inputText id="bairro" value="#{clienteBean.cliente.endereco.bairro}" />
+                    <p:outputLabel value="Cep: "/><p:inputText id="cep" value="#{clienteBean.cliente.endereco.cep}" />
+                    <p:outputLabel value="Complemento: "/> <p:inputText id="pontoreferencia" value="#{clienteBean.cliente.endereco.complemento}" />
+                    <p:outputLabel value="Ponto Referência: "/><p:inputTextarea id="pontorefencia" value="#{clienteBean.cliente.endereco.pontoReferencia}" rows="1" cols="22"/>
+                    <p:outputLabel value="Estado: "/>
+                    <p:selectOneMenu id="combobox_estado"  value="#{clienteBean.cliente.endereco.estado}" converter="omnifaces.SelectItemsConverter">
+                        <p:ajax listener="#{clienteBean.carregarComboboxCidades()}" update="h_painelGrid_cidade :mensagem" />
+                        <f:selectItem itemLabel="Selecione um Item" />
+                        <f:selectItems value="#{clienteBean.listaEstados}"  var="Estado" itemValue="#{Estado}" itemLabel="#{Estado.nome}"/>                   
+                    </p:selectOneMenu>
+                </p:panelGrid>
+
+                <h:panelGrid id ="h_painelGrid_cidade" >
+                    <p:panelGrid columns="2" id = "painelGrid_cidade" >
+                        <p:outputLabel value="Cidade: "/>
+
+                        <p:selectOneMenu id="combobox_cidade" value="#{clienteBean.cliente.endereco.cidade}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Selecione um Item" />
+                            <f:selectItems value="#{clienteBean.listaCidadesPorEstado}"  var="Cidade" itemValue="#{Cidade}" itemLabel="#{Cidade.nome}"/>                   
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                </h:panelGrid>
+
+                <p:commandButton value="Próximo" id="salvar" actionListener="#{clienteBean.salvar()}"  update="@form :mensagem" />
+               
+            </h:form>      
+            
+            
+        </div>
     </ui:define>
 </ui:composition>
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.empresabordados.controller;
 
 import br.com.empresabordados.dao.EstadoDao;
@@ -45,12 +40,10 @@ public class EstadoBean implements Serializable {
     }
 
     public void salvar() {
-
         estadoDao.salvarOuAtualizarObjeto(this.estado);
         getListaObjetos();
         Messages.addGlobalInfo("Salvo com sucesso!");
         novo();
-
     }
 
     public void excluir(Estado c) {
@@ -58,7 +51,7 @@ public class EstadoBean implements Serializable {
         Messages.addGlobalInfo("Excluido com Sucesso!");
         estadoDao.deletarObjeto(estado);
         getListaObjetos();
-        this.estado = new Estado();
+         novo();
     }
 
     public void carregarDadosEditar(Estado c) {

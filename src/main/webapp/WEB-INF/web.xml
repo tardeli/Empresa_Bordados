@@ -4,11 +4,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     
-    <!-- Tema do PrimeFaces -->
+    <!-- Tema do PrimeFaces 
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>blitzer</param-value>
     </context-param>
+              -->
+
     <!-- Nome da Aplicacao -->
     <display-name>Empresa_Bordados</display-name>
         

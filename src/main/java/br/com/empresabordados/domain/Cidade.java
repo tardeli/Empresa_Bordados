@@ -1,12 +1,16 @@
 package br.com.empresabordados.domain;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -15,12 +19,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "Cidade")
+@NamedQuery(name = "pesquisarCidadesPorEstados", query = "FROM Cidade c WHERE c.estado = :estado")
 public class Cidade extends Domain implements Serializable{
-    @ManyToOne
-    @JoinColumn(name = "estado", nullable = false)
     @NotNull(message = "Selecione um estado")
+    @ManyToOne
+    @JoinColumn(name = "estado")
     private Estado estado;
-    @NotEmpty(message = "Cadastre um nome para prosseguir!")
+    
+    @NotEmpty(message = "Cadastre uma cidade para prosseguir!")
     @Column(length = 30)
     private String nome;
 

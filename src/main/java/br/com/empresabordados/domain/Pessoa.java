@@ -4,7 +4,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.omnifaces.util.Messages;
 
 /**
  *
@@ -16,12 +18,14 @@ public class Pessoa extends Domain implements Serializable{
     @NotEmpty(message = "Cadastre um nome para prosseguir!")
     @Column(length = 30)
     private String nome;
-    @Column(length = 12)
+    @Column(length = 16)
     private String telefone;
     @Column(length = 30)
+    @Email
     private String email;
     @Embedded
     private Endereco endereco;
+    private boolean situacao;
 
     public String getNome() {
         return nome;
@@ -48,6 +52,9 @@ public class Pessoa extends Domain implements Serializable{
     }
 
     public Endereco getEndereco() {
+        if(endereco==null){
+            return endereco = new Endereco();
+        }
         return endereco;
     }
 
@@ -55,9 +62,17 @@ public class Pessoa extends Domain implements Serializable{
         this.endereco = endereco;
     }
 
-    @Override
-    public String toString() {
-        return "Pessoa{" + "nome=" + nome + ", telefone=" + telefone + ", email=" + email + ", endereco=" + endereco + '}';
+    public boolean isSituacao() {
+        return situacao;
     }
 
+    public void setSituacao(boolean situacao) {
+        this.situacao = situacao;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" + "nome=" + nome + ", telefone=" + telefone + ", email=" + email + ", endereco=" + endereco + ", situacao=" + situacao + '}';
+    }
+    
 }

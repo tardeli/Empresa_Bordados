@@ -29,6 +29,10 @@ public class Endereco implements Serializable{
     @Column(length = 150)
     private String pontoReferencia;
     @ManyToOne
+    @JoinColumn(name = "estado", nullable = false)
+    @NotNull(message = "Selecione uma estado!")
+    private Estado estado;
+    @ManyToOne
     @JoinColumn(name = "cidade", nullable = false)
     @NotNull(message = "Selecione uma cidade!")
     private Cidade cidade;
@@ -81,9 +85,19 @@ public class Endereco implements Serializable{
         this.cidade = cidade;
     }
 
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
-        return "Endereco{" + "rua=" + rua + ", bairro=" + bairro + ", cep=" + cep + ", complemento=" + complemento + ", pontoReferencia=" + pontoReferencia + ", cidade=" + cidade + '}';
+        return "Endereco{" + "rua=" + rua + ", bairro=" + bairro + ", cep=" + cep + ", complemento=" + complemento + ", pontoReferencia=" + pontoReferencia + ", estado=" + estado + ", cidade=" + cidade + '}';
     }
+
+    
 
 }

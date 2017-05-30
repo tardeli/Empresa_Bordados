@@ -7,6 +7,8 @@
 
     <h:head>
         <title>Sistema Bordados</title>
+        <h:outputStylesheet library="css" name="estilo.css"/>
+        
     </h:head>
     <h:body>
         <p:growl id="mensagem"  />
@@ -21,11 +23,11 @@
 
             </p:layoutUnit>
 
-            <p:layoutUnit position="west" size="250" header="Menu">
+            <p:layoutUnit position="west" size="188" header="Menu">
                 <h:form id = "frm_principal">
-                    <p:panelMenu style="width:240px">
+                    <p:panelMenu style="width:180px">
                         <p:submenu label="Cadastrar">
-                            <p:menuitem value="Cliente" url="/pages/cliente.xhtml"/>
+                            <p:menuitem value="Cliente" url="/pages/clienteLista.xhtml"/>
                             <p:menuitem value="Cidade" url="/pages/cidade.xhtml"/>
                             <p:menuitem value="Estado" url="/pages/estado.xhtml"/>
                             <p:menuitem value="Funcionário" url="/pages/funcionario.xhtml"/>
@@ -44,7 +46,6 @@
                     </p:panelMenu>
                 </h:form>
             </p:layoutUnit>
-
 
             <p:layoutUnit position="center">
                 <ui:insert name="conteudo"/>
